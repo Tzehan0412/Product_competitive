@@ -1,0 +1,31 @@
+visual_strategy_task:
+  description: >
+    分析產品「{product_name}」與文案「{copywriting}」。
+    任務：
+    1. 自主決定場景、背景材質與光影風格。
+    2. 產出 3 組搜尋關鍵字，聚焦於「環境氛圍」。
+    3. 嚴禁修改或建議修改產品本身的主體結構。
+  expected_output: >
+    一份視覺策略建議書，包含場景描述與 3 組搜尋關鍵字。
+  agent: visual_strategist
+
+visual_prompt_task:
+  description: >
+    參考視覺策略與搜尋到的素材，為產品撰寫 Nano Banana 2 (Gemini 3 Flash Image) 專用的繪圖指令。
+    
+    【核心保護指令】:
+    - (Original primary subject from source image:1.9)
+    - (Maintain object structural integrity:1.8)
+    
+    【場景描述】:
+    結合前序任務提供的環境設定，呼應文案「{copywriting}」的氛圍。
+  expected_output: >
+    一個包含主體保護權重的英文 Prompt 字符串。
+  agent: visual_prompt_engineer
+
+image_generation_task:
+  description: >
+    呼應最終的 Prompt，讀取原始圖片路徑 "{source_image_path}"，執行影像生成並儲存檔案。
+  expected_output: >
+    生成成功的確認訊息，並標註檔案儲存路徑。
+  agent: image_generator
