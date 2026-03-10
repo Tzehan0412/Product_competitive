@@ -53,6 +53,14 @@ class CompetitiveAnalysisCrew:
             verbose=True,
         )
 
+    @agent
+    def advertising_planning(self) -> Agent:
+        return Agent(
+            config=self.agents_config["advertising_planning"],
+            llm=self.gemini,
+            verbose=True,
+        )
+    
     @task
     def product_profiling_task(self) -> Task:
         return Task(config=self.tasks_config["product_profiling_task"])
@@ -83,6 +91,18 @@ class CompetitiveAnalysisCrew:
                 self.competitor_scouting_task(),
                 self.competitor_analysis_task(),
             ],
+        )
+    @task
+    def advertising_planning_task(self) -> Task:
+        return Task(
+            config=self.tasks_config["ad_angle_planning_task"],
+            context=[
+                self.product_profiling_task(),
+                self.competitor_scouting_task(),
+                self.competitor_analysis_task(),
+                self.strategy_summary_task(),
+            ],
+            output_file="final_marketing_report.md"
         )
 
     @crew

@@ -1,0 +1,19 @@
+# 核心框架
+crewai
+crewai[tools]
+langgraph
+langchain-google-genai
+
+# Google Gemini 最新 SDK (影像生成)
+google-genai
+
+# 資料處理與環境設定
+pydantic
+python-dotenv
+Pillow
+
+# 外部工具與搜尋
+tavily-python
+
+# 監控與追蹤
+opik
