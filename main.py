@@ -2,10 +2,10 @@ import os
 import json
 from dotenv import load_dotenv
 
-# 匯入您的三個核心模組
+# 匯入您的核心模組
 from crew import CompetitiveAnalysisCrew
 from langGraph import build_marketing_graph
-# 修正：匯入正確的類別名稱 ProductVisualCrew (原本檔名為 crew_image.py)
+# 匯入修正後的影像生成 Crew
 from crew_image import ProductVisualCrew
 
 # 載入環境變數
@@ -14,7 +14,7 @@ load_dotenv()
 def run():
     # 設定初始參數
     product_input = "Penhaligon's 潘海利根獸首肖像香水系列 Lord George 公鹿淡香精 75ml"
-    source_image = "./800x.webp"  # 您的原始照片路徑
+    source_image = "./800x.webp"  # 原始照片路徑
     output_json = "marketing_result.json"
 
     print("🚀 [Step 1] 啟動 CrewAI：深入分析競品中...")
@@ -55,22 +55,30 @@ def run():
             print(f"🎯 提取 Hook: {hook_text}")
 
             print("\n📸 [Step 3] 啟動 CrewAI Visual Team：生成商業級產品圖...")
-            # 4. 執行圖片生成團隊邏輯
-            # 修正：準備符合 ProductVisualCrew 期待的 inputs 字典
+            
+            # --- 關鍵修正區塊 ---
+            # 1. 定義輸出資料夾路徑
+            output_dir = "./final_marketing_images"
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
+            
+            # 2. 準備 inputs 字典，必須包含 YAML 中引用的所有變數（如 output_path）
             visual_inputs = {
                 "product_name": product_name,
                 "copywriting": hook_text,
-                "source_image_path": source_image
+                "source_image_path": source_image,
+                "output_path": output_dir  # <-- 補上此參數以修正 KeyError
             }
+            # ------------------
 
-            # 修正：實例化 ProductVisualCrew 並執行 kickoff
+            # 4. 執行圖片生成團隊邏輯
             visual_crew_instance = ProductVisualCrew().crew()
             visual_crew_instance.kickoff(inputs=visual_inputs)
 
             print("\n" + "★" * 50)
             print("✨ 全自動行銷整合流程結束 ✨")
             print(f"📦 最終文案：{output_json}")
-            print(f"🖼️ 最終圖片：已根據 Crew 任務設定儲存")
+            print(f"🖼️ 影像儲存目錄：{output_dir}")
             print("★" * 50)
 
         else:

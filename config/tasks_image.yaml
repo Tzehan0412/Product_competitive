@@ -25,7 +25,10 @@ visual_prompt_task:
 
 image_generation_task:
   description: >
-    呼應最終的 Prompt，讀取原始圖片路徑 "{source_image_path}"，執行影像生成並儲存檔案。
+    根
+    據最終產出的 Prompt，讀取原始圖片路徑 "{source_image_path}"。
+    使用 Gemini 模型生成圖片後，將檔案存放在指定的路徑目錄："{output_path}"。
+    檔案名稱應為：product_visual_{product_name}.jpg。
   expected_output: >
-    生成成功的確認訊息，並標註檔案儲存路徑。
+    一個包含完整檔案存檔路徑（例如：{output_path}/product_visual_...jpg）的確認字串。
   agent: image_generator
